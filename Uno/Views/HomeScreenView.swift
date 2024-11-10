@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeScreenView: View {
-    @StateObject var vm = HabitTrackingViewModel()
+    @ObservedObject var vm: HabitTrackingViewModel
     @State private var shouldPresentSheet: Bool = false
     
     var body: some View {
@@ -66,5 +66,5 @@ struct HomeScreenView: View {
 }
 
 #Preview {
-    HomeScreenView()
+    HomeScreenView(vm: HabitTrackingViewModel())
 }

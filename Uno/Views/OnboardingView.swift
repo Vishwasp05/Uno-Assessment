@@ -9,11 +9,11 @@ import SwiftUI
 
 struct OnboardingView: View {
     @AppStorage("onboardingShown") private var isOnboardingComplete: Bool = false
-    
+    @ObservedObject var vm: HabitTrackingViewModel
     var body: some View {
         Group {
             if isOnboardingComplete {
-                HomeScreenView()
+                HomeScreenView(vm: vm)
             } else {
                 onboardingContent
             }
@@ -56,5 +56,5 @@ struct OnboardingView: View {
 }
 
 #Preview {
-    OnboardingView()
+    OnboardingView(vm: HabitTrackingViewModel())
 }

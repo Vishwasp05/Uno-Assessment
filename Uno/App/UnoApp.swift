@@ -9,12 +9,14 @@ import SwiftUI
 
 @main
 struct UnoApp: App {
+    @StateObject var vm = HabitTrackingViewModel()
     var body: some Scene {
+        
         WindowGroup {
             if UserDefaults.standard.bool(forKey: "onboardingShown") {
-                HomeScreenTabView()
+                HomeScreenTabView(vm: vm)
             } else {
-                OnboardingView()
+                OnboardingView(vm: vm)
             }
         }
     }

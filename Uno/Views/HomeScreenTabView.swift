@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct HomeScreenTabView: View {
+    @ObservedObject var vm: HabitTrackingViewModel
     var body: some View {
         TabView {
-            HomeScreenView()
+            HomeScreenView(vm: vm)
                 .tabItem {
                     Image(systemName: "house")
                         .foregroundStyle(.black)
                         
                 }
-             OnboardingView()
+            StatsView(/*vm: vm*/)
                 .tabItem {
                     Image(systemName: "chart.xyaxis.line")
                 }
@@ -27,5 +28,5 @@ struct HomeScreenTabView: View {
 }
 
 #Preview {
-    HomeScreenTabView()
+    HomeScreenTabView(vm: HabitTrackingViewModel())
 }
