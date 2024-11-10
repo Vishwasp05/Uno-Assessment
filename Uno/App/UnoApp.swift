@@ -11,7 +11,7 @@ import SwiftUI
 struct UnoApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            HomeScreenView()
         }
     }
 }
