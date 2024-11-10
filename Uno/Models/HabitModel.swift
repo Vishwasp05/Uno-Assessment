@@ -12,4 +12,6 @@ struct HabitModel: Identifiable {
     let title: String
     let imageString: String
     let reminderTime: Date
+    var isCompleted: Bool = false
+    var totalTimesThisHabitWasCompleted: Int = 0
 }

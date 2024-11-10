@@ -8,12 +8,17 @@
 import SwiftUI
 
 struct HabitCardIndividualView: View {
+    let habitName: String
+    let vm: HabitTrackingViewModel
     let bgColor: Color
     let imageName: String
     let isLastCell: Bool
+    let count: Int
+    let id: Int
     var body: some View {
+        
         VStack{
-            if !isLastCell{
+            if count != 1 && id != 1{
                 ZStack{
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundStyle(bgColor)
@@ -23,12 +28,18 @@ struct HabitCardIndividualView: View {
                             .font(.system(size: 80))
                             .padding(.leading, 10)
                         
-                        Text("Swimming")
+                        Text(habitName)
                             .font(.title)
                             .bold()
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.black)
                         
                         Spacer()
+                        
+                        Image(systemName: vm.habits[1].isCompleted ? "checkmark.circle.fill" : "plus.circle.fill")
+
+                            .font(.title3)
+                            .padding()
+                        
                     }
                 }
             } else {
@@ -76,5 +87,5 @@ struct HabitCardIndividualView: View {
 }
 
 #Preview {
-    HabitCardIndividualView(bgColor: .purple, imageName: "figure.pool.swim", isLastCell: true)
+    HabitCardIndividualView(habitName: "", vm: HabitTrackingViewModel(), bgColor: .yellow, imageName: "figure.pool.swim", isLastCell: true, count: 0, id: 1)
 }

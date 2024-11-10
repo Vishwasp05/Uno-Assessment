@@ -33,7 +33,7 @@ struct HabitDetailView: View {
     @State private var description: String = ""
     @State private var title: String = ""
     @State private var selectedTime = Date()
-    
+    @State private var sendAlerts = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -49,6 +49,7 @@ struct HabitDetailView: View {
             
             Spacer()
             VStack{
+                Text("Habit Description").padding(.trailing, 200)
                 ZStack{
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundStyle(.green.opacity(0.5))
@@ -67,6 +68,8 @@ struct HabitDetailView: View {
                 }
                 
                 // remind button
+                
+                Text("When should we remind you?").padding(.trailing, 110)
                 ZStack{
                     RoundedRectangle(cornerRadius: 18)
                         .foregroundStyle(.blue.opacity(0.5))
@@ -78,29 +81,7 @@ struct HabitDetailView: View {
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.white)
                         Spacer()
-//                        ZStack{
-//                            
-//                            RoundedRectangle(cornerRadius: 18)
-//                                .foregroundStyle(.white)
-//                            Menu {
-//                                ForEach(0..<12, id: \.self) { i in
-//                                    Button {
-//                                        displayTime = "\(i+1):00 PM"
-//                                        print("\(i + 1) PM selected")
-//                                    } label: {
-//                                        Text("\(i + 1):00")
-//                                            .foregroundStyle(.black)
-//                                    }
-//                                }
-//                            } label: {
-//                                HStack{
-//                                    Text(displayTime)
-//                                        .foregroundStyle(.black)
-//                                    Image(systemName: "chevron.down")
-//                                        .foregroundStyle(.black)
-//                                }
-//                            }
-//                        }
+//                       
                         DatePicker("", selection: $selectedTime, displayedComponents: .hourAndMinute)
                         .datePickerStyle(.compact)
                      }
@@ -113,34 +94,8 @@ struct HabitDetailView: View {
             
             Spacer()
             
-            
-            // Textfield
-            ZStack {
-                RoundedRectangle(cornerRadius: 18)
-                    .frame(width: 350, height: 300)
-                    .foregroundStyle(.yellow.opacity(0.6))
-                    .padding(.bottom, 50)
-                
-                
-                
-                ZStack{
-                    RoundedRectangle(cornerRadius: 18)
-                        .frame(width: 300, height: 200)
-                        .foregroundStyle(.white)
-                    
-                    TextEditor(text: $description)
-                        .frame(width: 295, height: 190)
-                    
-                    if description.isEmpty {
-                        Text("Add text")
-                            .foregroundStyle(.gray)
-                            .opacity(0.5)
-                            .offset(CGSize(width: -110, height: -85))
-                    }
-                    
-                }
-            }
-            
+
+            Spacer()
             
             ZStack{
                 RoundedRectangle(cornerRadius: 40)
@@ -149,8 +104,14 @@ struct HabitDetailView: View {
                 Button {
                     // send data to the viewModel
                     let habit = HabitModel(id: Int.random(in: 0...11000), title: title, imageString: sfSymbols.randomElement()!, reminderTime: selectedTime)
-                    vm.addHabit(habit)
-                    dismiss()
+                    
+                    if vm.sendAlert {
+                        sendAlerts.toggle()
+                        
+                    }else{
+                        vm.addHabit(habit)
+                        dismiss()
+                    }
                     
                 } label: {
                     Text("Log")
@@ -160,9 +121,16 @@ struct HabitDetailView: View {
                 }
             }
             .frame(width: 130, height: 70)
+            .alert(isPresented: $vm.sendAlert, content: {
+                Alert(title: Text("Caution 💀"), message: Text("This assignment only allows one task!"), dismissButton: .cancel({
+                    dismiss()
+                }))
+            })
+               
             
             Spacer()
         }
+        
     }
 }
 

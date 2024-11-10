@@ -11,7 +11,11 @@ import SwiftUI
 struct UnoApp: App {
     var body: some Scene {
         WindowGroup {
-            HomeScreenView()
+            if UserDefaults.standard.bool(forKey: "onboardingShown") {
+                HomeScreenTabView()
+            } else {
+                OnboardingView()
+            }
         }
     }
 }
